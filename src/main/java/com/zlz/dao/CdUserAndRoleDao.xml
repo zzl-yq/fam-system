@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlz.dao.CdUserAndRoleDao">
+
+    <sql id="columnsAll">
+        user_role_id,role_id,user_id
+    </sql>
+    <select id="selectAll">
+        SELECT
+        <include refid="columnsAll"/>
+        FROM cd_user_role
+        <where>
+          <if test="cdUserRoleVo != null">
+              <if test="cdUserRoleVo.userRoleId != null and cdUserRoleVo.userRoleId != ''">
+                  AND user_role_id = #{cdUserRoleVo.userRoleId}
+              </if>
+              <if test="cdUserRoleVo.userId != null and cdUserRoleVo.userId != ''">
+                  AND user_id = #{cdUserRoleVo.userId}
+              </if>
+              <if test="cdUserRoleVo.roleId != null and cdUserRoleVo.roleId != ''">
+                  AND role_id = #{cdUserRoleVo.roleId}
+              </if>
+          </if>
+        </where>
+    </select>
+
+    <update id="update">
+        UPDATE cd_user_role
+        <set>
+            <if test="cdUserRoleVo.userId != null and cdUserRoleVo.userId != ''">
+                user_id = #{cdUserRoleVo.userId}
+            </if>
+            <if test="cdUserRoleVo.roleId != null and cdUserRoleVo.roleId != ''">
+                role_id = #{cdUserRoleVo.roleId}
+            </if>
+        </set>
+        <where>
+            AND user_role_id = #{cdUserRoleVo.userRoleId}
+        </where>
+    </update>
+    <delete id="delete">
+        DELETE FROM cd_user_role
+        WHERE user_role_id = #{roleUserId}
+    </delete>
+</mapper>

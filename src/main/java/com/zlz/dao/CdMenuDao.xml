@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlz.dao.CdMenuDao">
+
+    <sql id="columnsAll">
+        menu_id,menu_name,menu_url,parent_id,order
+    </sql>
+    <select id="selectAll" resultType="com.zlz.model.CdMenu">
+        SELECT
+        <include refid="columnsAll"/>
+        FROM cd_menu
+        <where>
+            <if test="cdMenuVo.menuId != null and cdMenuVo.menuId !='' ">
+                AND menu_id = #{cdMenuVo.menuId}
+            </if>
+            <if test="cdMenuVo.menuName != null and cdMenuVo.menuName !=''">
+                AND menu_name = #{cdMenuVo.menuName}
+            </if>
+            <if test="cdMenuVo.menuUrl != null and cdMenuVo.menuUrl != ''">
+                AND  menu_url = #{cdMenuVo.menuUrl}
+            </if>
+            <if test="cdMenuVo.parentId != null and cdMenuVo.parentId !=''">
+                AND parent_id = #{cdMenuVo.parentId}
+            </if>
+            <if test="cdMenuVo.order != null and cdMenuVo.order != ''">
+                AND order = #{cdMenuVo.order}
+            </if>
+        </where>
+    </select>
+    <update id="update">
+        UPDATE cd_menu
+        <set>
+            <if test="cdMenuVo.menuName != null and cdMenuVo.menuName != ''">
+                menu_name = #{cdMenuVo.menuName},
+            </if>
+            <if test="cdMenuVo.menuUrl != null and cdMenuVo.menuUrl != ''">
+                menu_url = #{cdMenuVo.menuUrl},
+            </if>
+        </set>
+    </update>
+
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zlz.dao.CdUserDao">
+    <sql id="columnsAll">
+        user_id,user_account,user_name,user_password,user_state,create_date,last_up_date
+    </sql>
+
+    <select id="findAll"  resultType="com.zlz.model.CdUser">
+        select
+         <include refid="columnsAll"/>
+        from cd_user
+        <where>
+            <if test="cdUserVo != null">
+                <if test="cdUserVo.userId != null and cdUserVo.userId != ''">
+                    AND user_id = #{cdUserVo.userId}
+                </if>
+                <if test="cdUserVo.userName != null and cdUserVo.userName != ''">
+                     AND user_name = #{cdUserVo.userName}
+                </if>
+                <if test="cdUserVo.userAccount != null and cdUserVo.userAccount != ''">
+                     AND  user_account = #{cdUserVo.userAccount}
+                </if>
+                <if test="cdUserVo.userState != null and cdUserVo.userState != ''">
+                     AND  user_state = #{cdUserVo.userState}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <insert id="addUser">
+        INSERT INTO cd_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cdUser.userId != null and cdUser.userId != ''">
+                user_id,
+            </if>
+            <if test="cdUser.userAccount != null and cdUser.userAccount != ''">
+                user_account,
+            </if>
+            <if test="cdUser.userName != null and cdUser.userName != ''">
+                user_name,
+            </if>
+            <if test="cdUser.userPassword != null and cdUser.userPassword != ''">
+                user_password,
+            </if>
+            <if test="cdUser.userState != null and cdUser.userState != ''">
+                user_state
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="cdUser.userId != null and cdUser.userId != ''">
+                #{cdUser.userId},
+            </if>
+            <if test="cdUser.userAccount != null and cdUser.userAccount != ''">
+                #{cdUser.userAccount},
+            </if>
+            <if test="cdUser.userName != null and cdUser.userName != ''">
+                #{cdUser.userName},
+            </if>
+            <if test="cdUser.userPassword != null and cdUser.userPassword != ''">
+                #{cdUser.userPassword},
+            </if>
+            <if test="cdUser.userState != null and cdUser.userState != ''">
+                #{cdUser.userState}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateUser">
+        UPDATE cd_user
+         <set>
+             <if test="cdUser.userName != null and cdUser.userName != ''">
+                 user_name = #{cdUser.userName},
+             </if>
+             <if test="cdUser.userAccount != null and cdUser.userAccount != ''">
+                 user_account = #{cdUser.userAccount},
+             </if>
+             <if test="cdUser.userPassword != null and cdUser.userPassword != ''" >
+                 user_password = #{cdUser.userPassword},
+             </if>
+             <if test="cdUser.userState != null and cdUser.userState != ''">
+                 user_state = #{cdUser.userState}
+             </if>
+         </set>
+        <where>
+             AND user_id = #{cdUser.userId}
+        </where>
+
+    </update>
+
+    <delete id="deletUser">
+        DELETE FROM cd_user WHERE user_id = #{userId}
+    </delete>
+
+    <select id="selectUser" resultType="com.zlz.model.CdUser">
+        SELECT <include refid="columnsAll"/>
+        FROM cd_user
+        <where>
+            <if test="cdUserVo.userId != null and cdUserVo.userId != ''" >
+                AND user_id = #{cdUserVo.userId}
+            </if>
+            <if test="cdUserVo.userAccount != null and cdUserVo.userAccount !=''">
+                AND user_account = #{cdUserVo.userAccount}
+            </if>
+            <if test="cdUserVo.userPassword != null and cdUserVo.userPassword != ''">
+                AND user_password = #{cdUserVo.userPassword}
+            </if>
+        </where>
+    </select>
+</mapper>
